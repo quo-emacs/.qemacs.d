@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: _test.go (. convey)
+# --
+package ${1:`(yast/this-go-pkg-name)`}
+
+import (
+    "testing"
+
+    . "github.com/smartystreets/goconvey/convey"
+)
+
+func Test${2:}(t *testing.T) {
+	Convey("${3:}", t, func() {
+		$0
+	})
+}

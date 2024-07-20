@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: new.go
+# --
+package ${1:`(yast/this-go-pkg-name)`}
+
+$0

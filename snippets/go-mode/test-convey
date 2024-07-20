@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: test-convey
+# key: at
+# contributor : @kckrinke
+# --
+func Test${1:}(t *testing.T) {
+	Convey("${2:}", t, func() {
+		$0
+	})
+}

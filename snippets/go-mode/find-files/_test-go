@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: _test.go
+# --
+package ${1:`(yast/this-go-pkg-name)`}
+
+import (
+    "testing"
+)
+
+func Test${2:}(t *testing.T) {
+	$0
+}

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: new.org
+# --
+#+options: ^:nil
+
+$0
