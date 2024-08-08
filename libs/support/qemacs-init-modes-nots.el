@@ -72,6 +72,9 @@
       )
     )
 
+  ;; go things require final newlines
+  (setq mode-require-final-newline t)
+
   ;; go-mode flycheck settings
   (setq flycheck-go-build-tags              '("all")
         flycheck-go-vet-executable          "go vet -tags=all"

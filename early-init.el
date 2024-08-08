@@ -234,7 +234,7 @@
 (setq-default default-tab-width 2)
 
 (setq system-uses-terminfo nil)
-(setq require-final-newline t)
+(setq require-final-newline nil)
 (setq split-height-threshold nil)
 (setq split-width-threshold 180)
 
