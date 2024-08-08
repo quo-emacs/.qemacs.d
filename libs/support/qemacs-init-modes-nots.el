@@ -75,15 +75,23 @@
   ;; go things require final newlines
   (setq mode-require-final-newline t)
 
-  ;; go-mode flycheck settings
-  (setq flycheck-go-build-tags              '("all")
-        flycheck-go-vet-executable          "go vet -tags=all"
-        flycheck-go-test-executable         "go test -tags=all"
-        flycheck-go-gofmt-executable        "~/.emacs.d/bin/goimports.sh"
-        flycheck-go-errcheck-executable     "errcheck -tags=all"
-        flycheck-go-unconvert-executable    "unconvert -tags=all"
-        flycheck-go-staticcheck-executable  "staticcheck -tags=all"
-        ) ;; end settings
+  ;; support custom build tags
+  (let ((qemacs-go-build-tags (getenv "QEMACS_GO_BUILD_TAGS"))
+        (build-tags (list "all")))
+    (if (and qemacs-go-build-tags (not (eq qemacs-go-build-tags "")))
+        (setq build-tags (string-split qemacs-go-build-tags ",")))
+
+    ;; go-mode flycheck settings
+    (setq flycheck-go-build-tags              build-tags
+          flycheck-go-vet-executable          (format "go vet -tags=%s" (string-join build-tags ","))
+          flycheck-go-test-executable         (format "go test -tags=%s" (string-join build-tags ","))
+          flycheck-go-gofmt-executable        "~/.emacs.d/bin/goimports.sh"
+          flycheck-go-errcheck-executable     (format "errcheck -tags=%s" (string-join build-tags ","))
+          flycheck-go-unconvert-executable    (format "unconvert -tags=%s" (string-join build-tags ","))
+          flycheck-go-staticcheck-executable  (format "staticcheck -tags=%s" (string-join build-tags ","))
+          ) ;; end settings
+
+    ) ;; end let qemacs-go-build-tags
 
   ;; (setq tab-width 4
   ;; indent-tabs-mode t
