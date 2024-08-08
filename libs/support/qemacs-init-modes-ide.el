@@ -242,8 +242,8 @@
     (unless (qemacs-startup-answer-was-yes "use-go-mode")
       (setq this-mode 'go-ts-mode)
       (setq this-mode-hook 'go-ts-mode-hook)
-      (add-to-list 'auto-mode-alist '("go\\.mod\\'"  . go-mod-ts-mode))
-      (add-to-list 'auto-mode-alist '("go\\.work\\'" . go-work-ts-mode))
+      (add-to-list 'auto-mode-alist '("go\\.mod\\'"  . go-dot-mod-mode))
+      (add-to-list 'auto-mode-alist '("go\\.work\\'" . go-dot-work-mode))
       ) ;; end unless use-go-mode
     (add-to-list 'auto-mode-alist `("\\.go\\'" . ,this-mode))
     (add-hook this-mode-hook 'yas-minor-mode)
