@@ -401,8 +401,10 @@
   (define-key lsp-mode-map (kbd "S-<f6>") 'lsp-rename)
   (define-key lsp-mode-map (kbd "M-.")     'lsp-find-definition)
   (define-key lsp-mode-map (kbd "M-,")     'lsp-describe-thing-at-point)
+  (define-key lsp-mode-map (kbd "C-c d t") 'lsp-ui-doc-toggle)
   (define-key lsp-mode-map (kbd "C-c d s") 'lsp-ui-doc-show)
   (define-key lsp-mode-map (kbd "C-c d g") 'lsp-ui-doc-glance)
+  (evil-leader/set-key "d t" 'lsp-ui-doc-toggle)
   (evil-leader/set-key "d s" 'lsp-ui-doc-show)
   (evil-leader/set-key "d g" 'lsp-ui-doc-glance)
   (evil-define-key '(normal insert) 'global
