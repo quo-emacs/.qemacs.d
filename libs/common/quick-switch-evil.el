@@ -50,6 +50,9 @@
 (defun quick-switch-evil/global-mode-hook ()
   "Evil mode support for `quick-switch-global-mode'."
   (dolist (this-mode (list 'normal 'insert 'visual 'motion))
+    (evil-define-key this-mode quick-switch-global-map (kbd "SPC q s t") 'quick-switch-toggle)
+    (evil-define-key this-mode quick-switch-global-map (kbd "SPC q s n") 'quick-switch-cycle-next)
+    (evil-define-key this-mode quick-switch-global-map (kbd "SPC q s p") 'quick-switch-cycle-prev)
     (evil-define-key this-mode quick-switch-global-map (kbd "C-@") 'quick-switch-cycle-next)
     (evil-define-key this-mode quick-switch-global-map (kbd "C-^") 'quick-switch-cycle-prev)
     (evil-define-key this-mode quick-switch-global-map (kbd "C-TAB") 'quick-switch-cycle-next)
