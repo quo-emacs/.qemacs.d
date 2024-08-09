@@ -72,6 +72,9 @@
   )
 
 (qemacs-startup-ask-yn
+ "support-debian"
+ "Support debian (y) or (n)? ")
+(qemacs-startup-ask-yn
  "use-theming"
  "Use theming (y) or default (n)? ")
 (qemacs-startup-ask-yn
@@ -162,6 +165,10 @@
  `(use-package qemacs-init-treemacs :demand t)
  ) ;; end when qemacs-is-ide
 (use-package qemacs-init-theming :demand t)
+(qemacs-startup-when
+ (qemacs-startup-answer-was-yes "support-debian")
+ `(use-package qemacs-init-debian :demand t)
+ )
 
 ;;
 ;; snippet customization
