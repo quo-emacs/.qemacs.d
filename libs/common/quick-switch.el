@@ -123,9 +123,9 @@ Must be one of: `left' `bottom' `right' or `top'.")
 
 (defvar-keymap quick-switch-global-map
   :doc "Keymap for `quick-switch-global-mode'."
-  "C-c C-t t"       'quick-switch-toggle
-  "C-c C-t n"       'quick-switch-cycle-next
-  "C-c C-t p"       'quick-switch-cycle-prev
+  "C-c q s t"       'quick-switch-toggle
+  "C-c q s n"       'quick-switch-cycle-next
+  "C-c q s p"       'quick-switch-cycle-prev
   "C-`"             'quick-switch-cycle-next ;; Control+Backtick
   "C-@"             'quick-switch-cycle-next ;; Control+Backtick
   "C-^"             'quick-switch-cycle-prev ;; Control+Tilde
