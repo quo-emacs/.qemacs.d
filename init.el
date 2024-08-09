@@ -368,6 +368,7 @@
     )
   ) ;; end when neotree
 
+;; treemacs things
 (when (fboundp 'treemacs-mode)
   (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
   (global-set-key (kbd "C-<f12>")   'treemacs)
