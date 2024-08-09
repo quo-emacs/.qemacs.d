@@ -56,6 +56,7 @@
   (load bootstrap-file nil 'nomessage))
 
 ;; setup custom user paths
+(add-to-list 'load-path (concat user-emacs-directory "libs/debian"))
 (add-to-list 'load-path (concat user-emacs-directory "libs/others"))
 (add-to-list 'load-path (concat user-emacs-directory "libs/common"))
 (add-to-list 'load-path (concat user-emacs-directory "libs/support"))
