@@ -119,6 +119,8 @@
 
   (treemacs-hide-gitignored-files-mode nil)
 
+  (setq aw-ignored-buffers (delete 'treemacs-mode aw-ignored-buffers))
+
   (use-package treemacs-evil
     :after (evil)
     :demand t
