@@ -77,15 +77,17 @@
   ;; additional evil-mode packages
   ;;
 
-  (use-package evil-terminal-cursor-changer
-    :demand t
-    :straight t
-    :diminish ""
-    :config
-    (unless (display-graphic-p)
-      (evil-terminal-cursor-changer-activate)
-      ) ;; end unless display-graphic-p
-    ) ;; end use-package evil-terminal-cursor-changer
+  (unless (eql system-type 'darwin)
+    (use-package evil-terminal-cursor-changer
+      :demand t
+      :straight t
+      :diminish ""
+      :config
+      (unless (display-graphic-p)
+        (evil-terminal-cursor-changer-activate)
+        ) ;; end unless display-graphic-p
+      ) ;; end use-package evil-terminal-cursor-changer
+    ) ;; end unless darwin
 
   (use-package undo-fu
     :demand t
