@@ -229,10 +229,14 @@
   )
 
 (when (fboundp 'front-matter-mode)
-  (define-key front-matter-map (kbd "M-RET") 'front-matter-toggle-show-hide)
-  (evil-define-key '(normal insert visual motion) 'front-matter-map
-    (kbd "M-RET") 'front-matter-toggle-show-hide)
-  )
+  (defun qemacs-front-matter-mode-keybinds ()
+    "Startup function for configuring `front-matter' keybinds."
+    (define-key front-matter-map (kbd "M-RET") 'front-matter-toggle-show-hide)
+    (evil-define-key '(normal insert visual motion) 'front-matter-map
+      (kbd "M-RET") 'front-matter-toggle-show-hide)
+    ) ;; end qemacs-front-matter-mode-keybinds
+  (add-hook 'front-matter-mode-hook 'qemacs-front-matter-mode-keybinds)
+  ) ;; end fboundp front-matter-mode
 
 ;; move-text bindings
 (global-set-key (kbd "C-<up>") 'move-text-up)
