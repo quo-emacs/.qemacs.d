@@ -256,11 +256,18 @@
     :straight t
     :diminish ""
     :config
+    (cperl-toggle-abbrev)
     (add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
     (add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
     (add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
-    (setq cperl-hairy t
-          cperl-electric-backspace-untabify nil)
+    (setq cperl-hairy nil
+          cperl-electric-parens nil
+          cperl-electric-keywords nil
+          cperl-electric-linefeed nil
+          cperl-electric-lbrace-space nil
+          cperl-electric-parens-string nil
+          cperl-electric-backspace-untabify nil
+          )
     ) ;; end use-package cperl-mode
 
   (use-package pod-cperl-mode
