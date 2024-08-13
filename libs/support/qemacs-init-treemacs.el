@@ -163,18 +163,18 @@
     ;; :config (treemacs-set-scope-type 'Tabs)
     )
 
-  ;; (when (fboundp 'lsp)
-  ;;   (use-package lsp-treemacs
-  ;;     :demand t
-  ;;     :straight t
-  ;;     :config
-  ;;     (lsp-treemacs-sync-mode 1)
-  ;;     )
-  ;;   ) ;; end when lsp
+  (when (fboundp 'lsp)
+    (use-package lsp-treemacs
+      :demand t
+      :straight t
+      ;;     :config
+      ;;     (lsp-treemacs-sync-mode 1)
+      )
+    ) ;; end when lsp
 
-  ;;(treemacs-start-on-boot)
-
-  ;; (add-hook 'after-init-hook `(lambda (&rest _) (treemacs-switch-workspace)))
+  (when (= (length command-line-args) 1)
+    ;; display treemacs if no files given
+    (treemacs-start-on-boot))
 
   ;; handle startup workspace switching
   (add-hook 'after-init-hook 'qemacs-treemacs-startup-workspace)
