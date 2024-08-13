@@ -5,7 +5,7 @@
 ;; Author: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Maintainer: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Keywords: quo-emacs
-;; Version: 0.1.1
+;; Version: 0.1.2
 
 ;; This file is not part of GNU Emacs.
 
@@ -34,8 +34,13 @@
 ;; `qemacs-del-trail-space', `qemacs-del-trail-space-hook', `qemacs-escape',
 ;; `qemacs-is-ide', `qemacs-load', `qemacs-unpropertize-kill-ring',
 ;; `quit-current-buffer', `read-file-string', `sort-longest-to-shortest',
-;; `string-is-false', `string-is-true', `user-emacs-path', and
+;; `string-present', `string-is-false', `string-is-true', `user-emacs-path', and
 ;; `write-file-string'.
+
+;;; Changelog:
+
+;; v0.1.2:
+;;   * added `string-present' function
 
 ;;; Code:
 
@@ -171,6 +176,16 @@ Examples:
     (setq return-value (replace-regexp-in-string "/+" "/" return-value))
     return-value) ;; end let return-value
   ) ;; end user-emacs-path
+
+;;;###autoload
+(defun string-present (value)
+  "Return t if VALUE is not empty and not nil."
+  (cond
+   ;; nil or empty is false
+   ((or (not value) (equal value "")) nil)
+   ;; present true
+   (t t))
+  ) ;; end string-present
 
 ;;;###autoload
 (defun string-is-true (value)
