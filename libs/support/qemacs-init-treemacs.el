@@ -25,14 +25,23 @@
 
 ;;; Code:
 
+(require 'qemacs-common)
 
 (use-package treemacs
   :demand t
   :straight t
 
-  ;; :init
-  ;; (with-eval-after-load 'winum
-  ;;   (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :preface
+  (defun qemacs-treemacs-startup-workspace ()
+    "Startup with workspace named in `QEMACS_WORKSPACE'."
+    (when (qemacs-is-ide)
+      (let ((workspace-name (getenv "QEMACS_WORKSPACE")))
+        (when (and (string-present workspace-name) (not (equal workspace-name "default")))
+          (treemacs-do-switch-workspace workspace-name)
+          ) ;; end when string-present
+        ) ;; end let workspace-name
+      ) ;; end when qemacs-is-ide
+    ) ;; end qemacs-is-ide
 
   ;; :bind
   ;; (:map global-map
@@ -167,6 +176,8 @@
 
   ;; (add-hook 'after-init-hook `(lambda (&rest _) (treemacs-switch-workspace)))
 
+  ;; handle startup workspace switching
+  (add-hook 'after-init-hook 'qemacs-treemacs-startup-workspace)
   ) ;; end use-package treemacs
 
 
