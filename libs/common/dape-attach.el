@@ -5,7 +5,7 @@
 ;; Author: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Maintainer: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Keywords: quo-emacs
-;; Version: 0.1.0
+;; Version: 0.1.1
 ;; Package-Requires: ((dape "0.12.0") (dape-libs "0.1.0") (ps "0.1.0"))
 
 ;; This file is not part of GNU Emacs.
@@ -32,19 +32,31 @@
 ;;  (make-dape-attach-with dape-attach-dlv-to "dlv")
 ;;  (global-set-key 'dape-attach-dlv-to)
 
+;;; Changelog:
+
+;; v0.1.1:
+;;   * refactor to not use `setq-local'
+;;   * refactor `dape-attach/filter-debug-info'
+;;   * code cosmetic changes (updated comments, order of functions)
+;;   * removed emacs 29.4 requirement
+;;   * use `eval-and-compile' for require
+
 ;;; Code:
 
-(when (version< emacs-version "29.4")
-  (error "Emacs 29.4 or above required"))
-
-(require 'ps)
-(require 'dape)
-(require 'helm)
-(require 'dape-libs)
+(eval-and-compile (require 'ps))
+(eval-and-compile (require 'dape))
+(eval-and-compile (require 'helm))
+(eval-and-compile (require 'dape-libs))
 
 ;;
 ;; User Settings
 ;;
+
+;;;###autoload
+(defun dape-attach/filter-omit-emacs (proc)
+  "PROC :exe binary must not be special things like gopls."
+  ;; TODO: figure out a better way of filtering out language servers
+  (if (not (string-match "/\\(gopls\\)\\b" (slot-value proc :exe))) 1 nil))
 
 ;;;###autoload
 (defun dape-attach/filter-files-only (proc)
@@ -54,14 +66,12 @@
 ;;;###autoload
 (defun dape-attach/filter-debug-info (proc)
   "PROC :exe binary file command output must contain \"with debug_info\"."
-  (setq-local this-out (shell-command-to-string (concat "file " (slot-value proc :exe))))
-  (if (string-match "with debug_info" this-out) 1 nil))
-
-;;;###autoload
-(defun dape-attach/filter-omit-emacs (proc)
-  "PROC :exe binary must not be special things like gopls."
-  ;; TODO: figure out a better way of filtering out language servers
-  (if (not (string-match "/\\(gopls\\)\\b" (slot-value proc :exe))) 1 nil))
+  (let ((this-out (shell-command-to-string (concat "file " (slot-value proc :exe))))
+        (return-value nil))
+    (if (string-match "with debug_info" this-out)
+        (setq return-value t))
+    return-value)
+  ) ;; end dape-attach/filter-debug-info
 
 (defvar dape-attach/ps-filters
   `(
@@ -122,12 +132,15 @@ is also empty, no filtering is done and all running local processes will be
 displayed."
   (interactive)
   (if dape-active-mode (error (format "Dape is already connected.")))
-  (setq-local ps-filters dape-attach/ps-filters)
-  (if filters (setq-local ps-filters filters))
-  (setq-local ps-list (apply 'ps/list ps-filters))
-  (unless (> (length ps-list) 0)
-    (error (format "No matching processes found.")))
-  (let (choices) ;; prepare the user selection choices
+  (let* ((ps-filters (copy-tree dape-attach/ps-filters))
+         (ps-list)
+         (choices))
+
+    (if filters (setq ps-filters filters))
+    (setq ps-list (apply 'ps/list ps-filters))
+    (unless (and ps-list (> (length ps-list) 0))
+      (error (format "No matching processes found")))
+
     (dolist (this-proc ps-list choices)
       (setq this-display (format "%10d\t%3d%%\t%3d%%\t%d\t%d\t%s"
                                  (slot-value this-proc :pid)
@@ -136,7 +149,9 @@ displayed."
                                  (slot-value this-proc :uid)
                                  (slot-value this-proc :gid)
                                  (slot-value this-proc :cmd)))
-      (push (cons this-display (slot-value this-proc :pid)) choices))
+      (push (cons this-display (slot-value this-proc :pid)) choices)
+      ) ;; end dolist this-proc
+
     (let ((answer
            (dape-attach/prompt
             "Attach     PID\t CPU\t MEM\t UID\t GID\tCOMMAND"
@@ -152,7 +167,7 @@ displayed."
           ) ;; end pid attach
         ) ;; end numberp answer
       ) ;; end let completing-read
-    ) ;; end choices
+    ) ;; end let ps-filters, choices
   ) ;; end dape-attach-to-pid-with
 
 ;;;###autoload
@@ -160,11 +175,11 @@ displayed."
   "Call dape with NAMED config and request attach to local PID.
 
 The NAMED argument can be a symbol or a string."
-  (setq-local this-argv (list :request "attach" :mode "local" :processId pid))
-  (setq-local this-key (dape--find-config-key named))
-  (if this-key
-      (dape (dape--config-eval this-key this-argv))
-    (error (format "%s config not found." name))))
+  (let ((this-argv (list :request "attach" :mode "local" :processId pid))
+        (this-key (dape--find-config-key named)))
+    (if this-key
+        (dape (dape--config-eval this-key this-argv))
+      (error (format "%s config not found." name)))))
 
 ;;
 ;; Attach To Host:Port
