@@ -5,7 +5,7 @@
 ;; Author: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Maintainer: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Keywords: quo-emacs
-;; Version: 0.1.0
+;; Version: 0.1.1
 
 ;; This file is not part of GNU Emacs.
 
@@ -42,9 +42,17 @@
 ;;
 ;; Only tested on Debian.  YMMV.
 
+;;; Changelog:
+
+;; v0.1.1:
+;;   * refactored to not use `setq-local'
+;;   * bugfix for truncated "exe" column of ps output
+;;   * eval-and-compile require 's
+
 ;;; Code:
 
 (eval-and-compile (require 'eieio))
+(eval-and-compile (require 's))
 
 (when (string="" (shell-command-to-string "which ps 2> /dev/null"))
   (error "The ps command was not found"))
@@ -72,33 +80,34 @@ process included.
 Example:
  (ps/list (lambda (proc) (> (slot-value proc :pid) 10)))
  ;; returned list should not include processes where their pid is 10 or less"
-  (setq-local ps-list (shell-command-to-string "ps -ax -o 'pid=,uid=,gid=,pcpu=,pmem=,exe=,command='"))
-  (setq-local these-lines (split-string ps-list "\n"))
-  (let (this-list)
+  (let* ((ps-list (shell-command-to-string "ps -ax -o 'pid=,uid=,gid=,pcpu=,pmem=,command='"))
+         (these-lines (split-string ps-list "\n"))
+         (this-list))
     (dolist (this-line these-lines this-list)
       (unless (string="" this-line)
-        (setq-local line-parts (split-string this-line))
-        (setq-local this-pid (string-to-number (nth 0 line-parts))) (setq-local line-parts (cdr line-parts))
-        (setq-local this-uid (string-to-number (nth 0 line-parts))) (setq-local line-parts (cdr line-parts))
-        (setq-local this-gid (string-to-number (nth 0 line-parts))) (setq-local line-parts (cdr line-parts))
-        (setq-local this-cpu (string-to-number (nth 0 line-parts))) (setq-local line-parts (cdr line-parts))
-        (setq-local this-mem (string-to-number (nth 0 line-parts))) (setq-local line-parts (cdr line-parts))
-        (setq-local this-exe (nth 0 line-parts))                    (setq-local line-parts (cdr line-parts))
-        (setq-local this-cmd (s-join " " line-parts))
-        (setq-local this-proc (make-instance
-                               `ps/proc
-                               :pid this-pid
-                               :uid this-uid
-                               :gid this-gid
-                               :cpu this-cpu
-                               :mem this-mem
-                               :exe this-exe
-                               :cmd this-cmd))
-        (setq-local omit-this nil)
-        (dolist (this-filter filters)
-          (if (eql (funcall this-filter this-proc) nil)
-              (progn (setq-local omit-this t))))
-        (unless omit-this (push this-proc this-list))
+        (let* ((line-parts (split-string this-line))
+               (this-pid (string-to-number (pop line-parts)))
+               (this-uid (string-to-number (pop line-parts)))
+               (this-gid (string-to-number (pop line-parts)))
+               (this-cpu (string-to-number (pop line-parts)))
+               (this-mem (string-to-number (pop line-parts)))
+               (this-exe (shell-command-to-string (format "ps -p %d -o 'exe='" this-pid)))
+               (this-cmd (s-join " " line-parts))
+               (this-proc (make-instance
+                           `ps/proc
+                           :pid this-pid
+                           :uid this-uid
+                           :gid this-gid
+                           :cpu this-cpu
+                           :mem this-mem
+                           :exe this-exe
+                           :cmd this-cmd))
+               (omit-this nil))
+          (dolist (this-filter filters)
+            (unless (funcall this-filter this-proc)
+              (setq omit-this t)))
+          (unless omit-this (push this-proc this-list))
+          ) ;; end let variables
         ) ;; end unless this-line
       ) ;; end dolist this-line
     ;;(setq this-list (reverse this-list))
