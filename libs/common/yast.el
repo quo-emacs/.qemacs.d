@@ -5,8 +5,8 @@
 ;; Author: Kevin C. Krinke <kevin@krinke.ca>
 ;; Maintainer: Kevin C. Krinke <kevin@krinke.ca>
 ;; Keywords: quo-emacs
-;; Version: 0.1.0
-;; Package-Requires: ((yasnippet))
+;; Version: 0.1.1
+;; Package-Requires: ((yasnippet) (uuidgen))
 
 ;; This file is not part of GNU Emacs.
 
@@ -26,9 +26,17 @@
 
 ;; `yasnippet' template functions.
 
+;;; Changelog:
+
+;; - v0.1.1:
+;;   - added yast/datestamp
+;;   - added yast/timedate
+;;   - added yast/uuid (requires uuidgen)
+
 ;;; Code:
 
 (require 'yasnippet)
+(require 'uuidgen)
 
 ;;;###autoload
 (defun yast/find-file (yas-name mode)
@@ -143,6 +151,22 @@ Requires the `grep' unix command line program."
       ) ;; end unless return-value
     return-value)
   ) ;; end yast/this-go-pkg-name
+
+(defun yast/datestamp (&optional time zone)
+  "Return a datestamp in the format of YYYYMMDD-HHmm.
+
+See `format-time-string` for the meaning of TIME and ZONE."
+  (format-time-string "%Y%m%d-%H%M" time zone))
+
+(defun yast/timedate (&optional time zone)
+  "Return a datestamp in the format of YYYY-MM-DDTHH:mm:SSZ.
+
+See `format-time-string` for the meaning of TIME and ZONE."
+  (format-time-string "%Y-%m-%dT%H:%M:%SZ" time zone))
+
+(defun yast/uuid ()
+  "Return a new UUID string in V4 format."
+  (uuidgen-4))
 
 (provide 'yast)
 ;;; yast.el ends here
