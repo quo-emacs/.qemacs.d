@@ -4,8 +4,8 @@
 +++
 title = "${1:Page Title}"
 description = "${2:Page description}"
-created = "${3:`(yast/timedate)`}"
-updated = "${3}"
+created = ${3:`(yast/timedate)`}
+updated = ${3}
 type = "page"
 layout = "defaults"
 permalink = "`(yast/uuid)`"
