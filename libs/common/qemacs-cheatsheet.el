@@ -215,6 +215,7 @@
 
 (cheatsheet-add-group
  'Languages
+ '(:key "C-<f6>"   :description "lsp find implementation")
  '(:key "S-<f6>"   :description "lsp rename thing")
  '(:key "<f6>"     :description "lsp find references")
  '(:key "M-,"      :description "lsp describe thing")

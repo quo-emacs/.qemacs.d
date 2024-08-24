@@ -414,6 +414,7 @@
   (define-key lsp-mode-map (kbd "M->") 'xref-go-back)
   (define-key lsp-mode-map (kbd "<f6>") 'lsp-find-references)
   (define-key lsp-mode-map (kbd "S-<f6>") 'lsp-rename)
+  (define-key lsp-mode-map (kbd "C-<f6>") 'lsp-find-implementation)
   (define-key lsp-mode-map (kbd "M-.")     'lsp-find-definition)
   (define-key lsp-mode-map (kbd "M-,")     'lsp-describe-thing-at-point)
   (define-key lsp-mode-map (kbd "C-c d t") 'lsp-ui-doc-toggle)
