@@ -192,6 +192,16 @@
 ;; elisp mode
 (yasai-add "\\.el$" 'emacs-lisp-mode "new-package.el" "new elisp package")
 
+;; markdown mode
+(let ((this-mode 'markdown-mode))
+  ;; various forms of front-matter
+  (yasai-add "\\.md$" this-mode "front-matter (yaml)" "yaml context")
+  (yasai-add "\\.md$" this-mode "front-matter (toml)" "toml context")
+  (yasai-add "\\.md$" this-mode "front-matter (json)" "json context")
+  (yasai-add "\\.md$" this-mode "front-matter (hugo)" "hugo json context")
+  (yasai-add "\\.md$" this-mode "front-matter (none)" "no context")
+  )
+
 ;;
 ;; keybindings
 ;;

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: front-matter (none)
+# --
+# ${1:Page Title}
+
+${0}
