@@ -323,5 +323,17 @@
   (add-to-list 'front-matter-deny-patterns "README\\.[a-zA-Z0-9]+\\'")
   ) ;; end use-package front-matter
 
+;;
+;; Additional packages
+;;
+
+;; generate UUID strings, required for `yast' package
+(use-package uuidgen
+  :demand t
+  :straight (uuidgen
+             :type git
+             :host github
+             :repo "kanru/uuidgen-el"))
+
 (provide 'qemacs-init-modes-sbtv)
 ;;; qemacs-init-modes-sbtv.el ends here
