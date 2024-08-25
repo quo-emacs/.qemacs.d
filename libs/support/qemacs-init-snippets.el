@@ -50,6 +50,20 @@
   :straight t
   :diminish yas-minor-mode
   :after (yasnippet-snippets autoinsert)
+  :preface
+  (defun qemacs-yas-dir-locals ()
+    "Utility function for adding .dir-locals.d/snippets to `yas-snippet-dirs'."
+    (let ((this-path (dir-locals-d)))
+      (when (and this-path (file-directory-p this-path))
+        (let ((these-snippets (file-name-as-directory (concat this-path "snippets"))))
+          (when (file-directory-p these-snippets)
+            (add-to-list 'yas-snippet-dirs these-snippets)
+            (yas-reload-all)
+            )
+          )
+        )
+      )
+    ) ;; end qemacs-yas-dir-locals
   :config
   (yas-global-mode 1)
   ) ;; end use-package yasnippet
@@ -57,12 +71,19 @@
 (use-package yast
   :demand t
   :diminish ""
-  )
+  ) ;; end use-package yast
+
 (use-package yasai
   :demand t
   :diminish ""
   :after (yasnippet yast)
   ) ;; end use-package yasai
+
+;; (use-package yasai-helm
+;;   :demand t
+;;   :diminish ""
+;;   :after (yasai)
+;;   ) ;; end use-package yasai-helm
 
 (provide 'qemacs-init-snippets)
 ;;; qemacs-init-snippets.el ends here
