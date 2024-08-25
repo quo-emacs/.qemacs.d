@@ -203,11 +203,18 @@
   )
 
 ;;; the following is an example of `.dir-locals.el' using `yasai-add'
-;; ;; begin .dir-locals.el
-;; (
-;;  (nil . ((eval . (add-to-list 'yas-snippet-dirs "/absolute/path/.snippets.d"))))
-;;  (nil . ((eval . (yas-reload-all))))
-;;  (nil . ((eval . (yasai-add "\\.md$" 'markdown-mode "template name" "template description"))))
+;; ( ;; begin .dir-locals.el
+;;  (nil
+;;   . ((eval
+;;       . (progn
+;;           ;; add .dir-locals.d/snippets to `yas-snippet-dirs'
+;;           (qemacs-yas-dir-locals)
+;;           ;; add project-specific yasai templates
+;;           (yasai-add "\\.md$" 'markdown-mode "template name" "description")
+;;           ) ;; end nil eval progn
+;;       ) ;; end nil eval
+;;      ) ;; end nil locals
+;;   ) ;; end nil mode
 ;;  ) ;; end .dir-locals.el
 
 ;;
