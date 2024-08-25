@@ -361,6 +361,10 @@
 (global-set-key (kbd "C-c c r")   'comment-region)
 (global-set-key (kbd "C-c u c r") 'uncomment-region)
 
+;; run-command things
+(global-set-key (kbd "C-c r c") 'run-command)
+(evil-leader/set-key "r c" 'run-command)
+
 ;; cheatsheet help
 (global-set-key (kbd "<f1>") 'qemacs-cheatsheet-toggle)
 

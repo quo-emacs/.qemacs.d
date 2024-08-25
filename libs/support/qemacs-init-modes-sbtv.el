@@ -119,7 +119,6 @@
   :demand t
   :straight t
   :diminish ""
-  :bind ("C-c r c" . run-command)
 
   :config
   (use-package run-command-recipe-make
