@@ -56,9 +56,11 @@
     (let ((this-path (dir-locals-d)))
       (when (and this-path (file-directory-p this-path))
         (let ((these-snippets (file-name-as-directory (concat this-path "snippets"))))
-          (when (file-directory-p these-snippets)
-            (add-to-list 'yas-snippet-dirs these-snippets)
-            (yas-reload-all)
+          (if (file-directory-p these-snippets)
+              (unless (member these-snippets yas-snippet-dirs)
+                (add-to-list 'yas-snippet-dirs these-snippets)
+                (yas-reload-all)
+                )
             )
           )
         )
@@ -66,6 +68,7 @@
     ) ;; end qemacs-yas-dir-locals
   :config
   (yas-global-mode 1)
+  (function-put 'qemacs-yas-dir-locals 'safe-local-eval-function t)
   ) ;; end use-package yasnippet
 
 (use-package yast
