@@ -202,6 +202,14 @@
   (yasai-add "\\.md$" this-mode "front-matter (none)" "no context")
   )
 
+;;; the following is an example of `.dir-locals.el' using `yasai-add'
+;; ;; begin .dir-locals.el
+;; (
+;;  (nil . ((eval . (add-to-list 'yas-snippet-dirs "/absolute/path/.snippets.d"))))
+;;  (nil . ((eval . (yas-reload-all))))
+;;  (nil . ((eval . (yasai-add "\\.md$" 'markdown-mode "template name" "template description"))))
+;;  ) ;; end .dir-locals.el
+
 ;;
 ;; keybindings
 ;;
