@@ -5,7 +5,7 @@
 ;; Author: Kevin C. Krinke <kevin@krinke.ca>
 ;; Maintainer: Kevin C. Krinke <kevin@krinke.ca>
 ;; Keywords: quo-emacs
-;; Version: 0.1.0
+;; Version: 0.1.1
 ;; Package-Requires: ((autoinsert) (yasnippet))
 
 ;; This file is not part of GNU Emacs.
@@ -26,6 +26,11 @@
 
 ;; `autoinsert' using `yasnippet' templates.
 
+;;; Changelog:
+
+;; v0.1.1:
+;;   * refactored `yasai/entry' to include snippet-desc in `auto-insert-alist'
+
 ;;; Code:
 (require 'yasnippet)
 (require 'autoinsert)
@@ -37,8 +42,14 @@
 Creates a new `yasai/entry' with FILE-PATTERN, SNIPPET-NAME, SNIPPET-DESC
 and SNIPPET-MODE."
   (unless (yasai/add-table file-pattern snippet-mode snippet-name snippet-desc)
-    (let ((callback `(lambda () (interactive) (yasai/callback ,file-pattern))))
-      (add-to-list 'auto-insert-alist (cons file-pattern callback)))))
+    (add-to-list
+     'auto-insert-alist
+     (cons
+      (cons file-pattern snippet-desc)
+      `(lambda () (yasai/callback ,file-pattern)))
+     ) ;; end add-to auto-insert-alist
+    ) ;; end yasai/add-table call
+  ) ;; end yasai-add
 
 (defclass yasai/entry ()
   ((file-pattern :initarg :file-pattern :type string :initform ""
