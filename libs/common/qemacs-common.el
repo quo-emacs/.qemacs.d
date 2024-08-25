@@ -5,7 +5,7 @@
 ;; Author: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Maintainer: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Keywords: quo-emacs
-;; Version: 0.1.2
+;; Version: 0.1.3
 
 ;; This file is not part of GNU Emacs.
 
@@ -30,7 +30,8 @@
 
 ;; The following are the functions present within this package:
 ;;
-;; `buffer-focused-p', `buffer-string*', `buffer-visible-p', `message-log',
+;; `buffer-focused-p', `buffer-string*', `buffer-visible-p',
+;; `dir-locals-el-path', `dir-locals-d', `message-log',
 ;; `qemacs-del-trail-space', `qemacs-del-trail-space-hook', `qemacs-escape',
 ;; `qemacs-is-ide', `qemacs-load', `qemacs-unpropertize-kill-ring',
 ;; `quit-current-buffer', `read-file-string', `sort-longest-to-shortest',
@@ -39,6 +40,9 @@
 
 ;;; Changelog:
 
+;; v0.1.3:
+;;   * added `dir-locals-el-path' and `dir-locals-d' functions
+;;
 ;; v0.1.2:
 ;;   * added `string-present' function
 
@@ -266,6 +270,35 @@ If THIS-BUFFER is nil, uses `current-buffer'."
       t
     nil)
   ) ;; end buffer-focused-p
+
+;;;###autoload
+(defun dir-locals-el-path ()
+  "Return the `.dir-locals.el' file directory.
+
+See: https://stackoverflow.com/a/10248672 for details."
+  (let ((variables-file (dir-locals-find-file (or (buffer-file-name) default-directory)))
+        (dir-name nil))
+    (cond
+     ((stringp variables-file)
+      (setq dir-name (file-name-directory variables-file)))
+     ((consp variables-file)
+      (setq dir-name (nth 0 variables-file))))
+    dir-name)
+  ) ;; end this-local-dir
+
+;;;###autoload
+(defun dir-locals-d ()
+  "Return the `.dir-locals.d' directory."
+  (let ((this-path (dir-locals-el-path))
+        (return-value))
+    (when (and (string-present this-path) (file-directory-p this-path))
+      (let ((check-path (file-name-as-directory (concat (file-name-as-directory this-path) ".dir-locals.d"))))
+        (if (file-directory-p check-path)
+            (setq return-value check-path))
+        )
+      )
+    return-value)
+  ) ;; end dir-locals-d
 
 (provide 'qemacs-common)
 ;;; qemacs-common.el ends here
