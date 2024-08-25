@@ -5,7 +5,7 @@
 ;; Author: Kevin C. Krinke <kevin@krinke.ca>
 ;; Maintainer: Kevin C. Krinke <kevin@krinke.ca>
 ;; Keywords: quo-emacs
-;; Version: 0.1.1
+;; Version: 0.1.2
 ;; Package-Requires: ((autoinsert) (yasnippet))
 
 ;; This file is not part of GNU Emacs.
@@ -28,6 +28,10 @@
 
 ;;; Changelog:
 
+;; v0.1.2:
+;;   * specify `yasai-add' as safe for eval in `.dir-locals.el'
+;;   * ensure `yasai/add-table' does nothing when entry already exists
+;;
 ;; v0.1.1:
 ;;   * refactored `yasai/entry' to include snippet-desc in `auto-insert-alist'
 
@@ -50,6 +54,8 @@ and SNIPPET-MODE."
      ) ;; end add-to auto-insert-alist
     ) ;; end yasai/add-table call
   ) ;; end yasai-add
+;; specify `yasai-add' as safe for `.dir-locals.el' use
+(function-put 'yasai-add 'safe-local-eval-function t)
 
 (defclass yasai/entry ()
   ((file-pattern :initarg :file-pattern :type string :initform ""
@@ -87,9 +93,11 @@ SNIPPET-MODE."
                      :snippet-desc snippet-desc
                      :snippet-mode snippet-mode))
          (existing (gethash file-pattern yasai/registry))
-         (return-value (and existing (> (length existing) 0))))
-    (add-to-list 'existing new-entry)
-    (puthash file-pattern existing yasai/registry)
+         (return-value (and existing (> (length existing) 0) (member new-entry existing))))
+    (unless return-value
+      (add-to-list 'existing new-entry)
+      (puthash file-pattern existing yasai/registry)
+      ) ;; only apply when not existing
     return-value))
 
 (defvar yasai/custom-reader `yasai/completing-reader
