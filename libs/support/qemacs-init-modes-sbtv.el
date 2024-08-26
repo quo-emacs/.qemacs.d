@@ -119,16 +119,16 @@
   :demand t
   :straight t
   :diminish ""
-
   :config
-  (use-package run-command-recipe-make
-    :demand t
-    :diminish ""
-    :config
-    (add-to-list 'run-command-recipes 'run-command-recipe-make)
-    )
+  (setq run-command-default-runner 'run-command-runner-compile)
   ) ;; end use-package run-command
 
+(use-package run-command-recipe-make
+  :demand t
+  :diminish ""
+  :config
+  (add-to-list 'run-command-recipes 'run-command-recipe-make)
+  ) ;; end use-package run-command-recipe-make
 ;;
 ;; commentary
 ;;
