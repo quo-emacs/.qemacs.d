@@ -43,12 +43,14 @@
   :straight t
   :diminish ""
   :mode
-  (("\\.s?css" . css-mode))
+  (("\\.css"  . css-mode ))
+  (("\\.scss" . scss-mode))
   :config
   (setq css-indent-offset 2)
   (when (fboundp 'lsp-mode)
     (add-hook 'css-mode-hook     'lsp-deferred)
     (add-hook 'css-ts-mode-hook  'lsp-deferred)
+    (add-hook 'scss-mode-hook    'lsp-deferred)
     ) ;; end when lsp-mode
   ) ;; end use-package css-mode
 
