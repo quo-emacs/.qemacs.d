@@ -334,5 +334,13 @@
              :host github
              :repo "kanru/uuidgen-el"))
 
+;; auto close the *compile* buffer
+(use-package auto-close-compile
+  :demand t
+  :config
+  (setq auto-close-compile-always nil)
+  (setq auto-close-compile-delay    0)
+  )
+
 (provide 'qemacs-init-modes-sbtv)
 ;;; qemacs-init-modes-sbtv.el ends here
