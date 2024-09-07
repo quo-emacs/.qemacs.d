@@ -318,6 +318,7 @@
   :config
   ;; limit front-matter to within "content" parent paths
   (add-to-list 'front-matter-allow-patterns "/content/")
+  (add-to-list 'front-matter-allow-patterns "/emails/")
   ;; deny front-matter within any README file
   (add-to-list 'front-matter-deny-patterns "README\\.[a-zA-Z0-9]+\\'")
   ) ;; end use-package front-matter
