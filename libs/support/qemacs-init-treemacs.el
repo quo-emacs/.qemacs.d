@@ -115,8 +115,8 @@
   ;; using a Hi-DPI display, uncomment this to double the icon size.
   ;;(treemacs-resize-icons 44)
 
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
+  (treemacs-follow-mode nil)
+  (treemacs-filewatch-mode nil)
   (treemacs-fringe-indicator-mode 'always)
   (when treemacs-python-executable
     (treemacs-git-commit-diff-mode t))
