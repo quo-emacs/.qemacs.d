@@ -121,6 +121,7 @@
   :diminish ""
   :config
   (setq run-command-default-runner 'run-command-runner-compile)
+  (setq run-command-selector nil)
   ) ;; end use-package run-command
 
 (use-package run-command-recipe-make
