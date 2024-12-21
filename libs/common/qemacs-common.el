@@ -5,7 +5,7 @@
 ;; Author: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Maintainer: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Keywords: quo-emacs
-;; Version: 0.1.4
+;; Version: 0.1.5
 
 ;; This file is not part of GNU Emacs.
 
@@ -30,6 +30,7 @@
 
 ;; The following are the functions present within this package:
 ;;
+;; `push-undo', 'pop-undo',
 ;; `indent-buffer', `indent-buffer-on-save',
 ;; `buffer-focused-p', `buffer-string*', `buffer-visible-p',
 ;; `dir-locals-el-path', `dir-locals-d', `message-log',
@@ -41,6 +42,10 @@
 
 ;;; Changelog:
 
+;; v0.1.5:
+;;   * added `push-undo' and `pop-undo'
+;;   * use push/pop-undo in `indent-buffer' on save
+;;
 ;; v0.1.4:
 ;;   * added `indent-buffer', `indent-buffer-on-save' and `indent-buffer-on-save-modes-list'
 ;;
@@ -304,6 +309,27 @@ See: https://stackoverflow.com/a/10248672 for details."
     return-value)
   ) ;; end dir-locals-d
 
+(defvar pushpop-undo-stack '()
+  "Backing list for push/pop-undo stack."
+  )
+
+;;;###autoload
+(defun push-undo ()
+  "Push current undo history to stack, clearing undo history."
+  (interactive)
+  (push buffer-undo-list pushpop-undo-stack)
+  (setq buffer-undo-list nil)
+  ) ;; end push-undo
+
+;;;###autoload
+(defun pop-undo ()
+  "Push current undo history to stack, clearing undo history."
+  (interactive)
+  (setq-local this-list (pop pushpop-undo-stack))
+  (setq buffer-undo-list this-list)
+  ) ;; end pop-undo
+
+
 ;;;###autoload
 (defun indent-buffer ()
   "Indent the current buffer, after deleting trailing whitespace."
@@ -319,12 +345,14 @@ See: https://stackoverflow.com/a/10248672 for details."
 ;;;###autoload
 (defun indent-buffer-on-save ()
   "Call `indent-buffer' during `before-save-hook'."
+  (push-undo)
   (catch 'break
     (dolist (this-mode indent-buffer-on-save-modes-list)
       (when (eq this-mode major-mode)
         (indent-buffer)
         (throw 'break nil))
       ))
+  (pop-undo)
   ) ;; end indent-buffer-on-save
 
 ;; add indend-buffer to before-save-hook - does nothing unless
