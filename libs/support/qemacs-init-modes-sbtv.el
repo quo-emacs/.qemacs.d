@@ -244,6 +244,7 @@
   ;; use cperl-mode instead of perl-mode
   (setq auto-mode-alist        (rassq-delete-all 'perl-mode auto-mode-alist))
   (setq interpreter-mode-alist (rassq-delete-all 'perl-mode interpreter-mode-alist))
+  (add-to-list 'indent-buffer-on-save-modes-list 'cperl-mode)
 
   :mode
   (
@@ -273,6 +274,10 @@
           cperl-electric-lbrace-space nil
           cperl-electric-parens-string nil
           cperl-electric-backspace-untabify nil
+          ;; syntax indentation
+          cperl-close-paren-offset -2
+          cperl-indent-parens-as-block t
+          cperl-continued-statement-offset 2
           )
     ) ;; end use-package cperl-mode
 
