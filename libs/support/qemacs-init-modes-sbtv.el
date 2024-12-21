@@ -29,6 +29,12 @@
 (require 'qemacs-startup)
 
 ;;
+;; auto-format on buffer save customization
+;;
+
+(add-to-list 'indent-buffer-on-save-modes-list 'sh-mode)
+
+;;
 ;; cc-mode is considered "sbtv" because these settings are used by many other
 ;; modes for indentation and other default values
 ;;
