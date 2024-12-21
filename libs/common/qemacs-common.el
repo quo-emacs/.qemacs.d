@@ -5,7 +5,7 @@
 ;; Author: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Maintainer: Kevin C. Krinke <https://github.com/kckrinke>
 ;; Keywords: quo-emacs
-;; Version: 0.1.3
+;; Version: 0.1.4
 
 ;; This file is not part of GNU Emacs.
 
@@ -30,6 +30,7 @@
 
 ;; The following are the functions present within this package:
 ;;
+;; `indent-buffer', `indent-buffer-on-save',
 ;; `buffer-focused-p', `buffer-string*', `buffer-visible-p',
 ;; `dir-locals-el-path', `dir-locals-d', `message-log',
 ;; `qemacs-del-trail-space', `qemacs-del-trail-space-hook', `qemacs-escape',
@@ -40,6 +41,9 @@
 
 ;;; Changelog:
 
+;; v0.1.4:
+;;   * added `indent-buffer', `indent-buffer-on-save' and `indent-buffer-on-save-modes-list'
+;;
 ;; v0.1.3:
 ;;   * added `dir-locals-el-path' and `dir-locals-d' functions
 ;;
@@ -299,6 +303,33 @@ See: https://stackoverflow.com/a/10248672 for details."
       )
     return-value)
   ) ;; end dir-locals-d
+
+;;;###autoload
+(defun indent-buffer ()
+  "Indent the current buffer, after deleting trailing whitespace."
+  (interactive)
+  (delete-trailing-whitespace)
+  (indent-region (point-min) (point-max) nil)
+  (untabify (point-min) (point-max))
+  ) ;; end indent-buffer
+
+(defvar indent-buffer-on-save-modes-list '()
+  "Modes affected by calls to `indent-buffer-on-save' during `before-save-hook'.")
+
+;;;###autoload
+(defun indent-buffer-on-save ()
+  "Call `indent-buffer' during `before-save-hook'."
+  (catch 'break
+    (dolist (this-mode indent-buffer-on-save-modes-list)
+      (when (eq this-mode major-mode)
+        (indent-buffer)
+        (throw 'break nil))
+      ))
+  ) ;; end indent-buffer-on-save
+
+;; add indend-buffer to before-save-hook - does nothing unless
+;; indent-buffer-on-save-modes-list is not nil
+(add-hook 'before-save-hook 'indent-buffer-on-save nil nil)
 
 (provide 'qemacs-common)
 ;;; qemacs-common.el ends here
