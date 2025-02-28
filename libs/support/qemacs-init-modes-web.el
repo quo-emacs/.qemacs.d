@@ -180,6 +180,18 @@
       (setq web-mode-enable-heredoc-fontification t)
       (setq web-mode-enable-current-element-highlight t)
       (setq web-mode-enable-current-column-highlight t)
+      (setq web-mode-enable-engine-detection t)
+      (setq web-mode-engines-alist
+            '(("go"  . "\\.html\\.tmpl\\'")
+              ("go"  . "\\.tmpl\\'")))
+
+      :init
+
+      (defun web-mode-go-tmpl-hook ()
+        (when (string= (file-name-extension buffer-file-name) "tmpl")
+          (web-mode)
+          (web-mode-set-engine "go")))
+      (add-hook 'find-file-hook 'web-mode-go-tmpl-hook)
 
       ) ;; end use-package web-mode
 
