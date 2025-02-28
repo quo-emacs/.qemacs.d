@@ -184,6 +184,8 @@
   ;; multiple languages supported by iph, give it a transient home
   (lsp-intelephense-storage-path        (user-emacs-path "transient" "intelephense"))
   (lsp-intelephense-global-storage-path (user-emacs-path "transient" "intelephense"))
+  ;; silence warnings for web-mode (for example)
+  (lsp-warn-no-matched-clients nil)
 
   ) ;; end use-package lsp-mode
 
