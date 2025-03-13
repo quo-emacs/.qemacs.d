@@ -140,6 +140,8 @@
 
 (cheatsheet-add-group
  'Editing
+ '( :key "C-u M-! <shell-cmd>"
+    :description "insert the output of a shell command")
  '(:key "M-_"    :description "undo")
  '(:key "C-_"    :description "redo")
  '(:key "ESC"    :description "evil-escape (quit action)")
