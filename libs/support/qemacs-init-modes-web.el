@@ -190,7 +190,11 @@
       (defun web-mode-go-tmpl-hook ()
         (when (string= (file-name-extension buffer-file-name) "tmpl")
           (web-mode)
-          (web-mode-set-engine "go")))
+          (web-mode-set-engine "go")
+          (setq-local require-final-newline nil)
+          (setq-local mode-require-final-newline nil)
+          ) ;; end when tmpl
+        ) ;; end defun web-mode-go-tmpl-hook
       (add-hook 'find-file-hook 'web-mode-go-tmpl-hook)
 
       ) ;; end use-package web-mode
