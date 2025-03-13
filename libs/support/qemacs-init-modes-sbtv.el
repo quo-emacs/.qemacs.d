@@ -32,7 +32,7 @@
 ;; auto-format on buffer save customization
 ;;
 
-(add-to-list 'indent-buffer-on-save-modes-list 'sh-mode)
+;; (add-to-list 'indent-buffer-on-save-modes-list 'sh-mode)
 
 ;;
 ;; cc-mode is considered "sbtv" because these settings are used by many other
@@ -244,7 +244,7 @@
   ;; use cperl-mode instead of perl-mode
   (setq auto-mode-alist        (rassq-delete-all 'perl-mode auto-mode-alist))
   (setq interpreter-mode-alist (rassq-delete-all 'perl-mode interpreter-mode-alist))
-  (add-to-list 'indent-buffer-on-save-modes-list 'cperl-mode)
+  ;; (add-to-list 'indent-buffer-on-save-modes-list 'cperl-mode)
 
   :mode
   (
