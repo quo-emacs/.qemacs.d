@@ -1,11 +1,11 @@
 ;;; yast.el --- yasnippet template utilities             -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2024 The Quo-Emacs Authors
+;; Copyright (C) 2025 The Quo-Emacs Authors
 
 ;; Author: Kevin C. Krinke <kevin@krinke.ca>
 ;; Maintainer: Kevin C. Krinke <kevin@krinke.ca>
 ;; Keywords: quo-emacs
-;; Version: 0.1.1
+;; Version: 0.1.2
 ;; Package-Requires: ((yasnippet) (uuidgen))
 
 ;; This file is not part of GNU Emacs.
@@ -28,10 +28,13 @@
 
 ;;; Changelog:
 
+;; - v0.1.2:
+;;   - added `yast/date'
+
 ;; - v0.1.1:
-;;   - added yast/datestamp
-;;   - added yast/timedate
-;;   - added yast/uuid (requires uuidgen)
+;;   - added `yast/datestamp'
+;;   - added `yast/timedate'
+;;   - added `yast/uuid' (requires uuidgen)
 
 ;;; Code:
 
@@ -152,18 +155,28 @@ Requires the `grep' unix command line program."
     return-value)
   ) ;; end yast/this-go-pkg-name
 
+;;;###autoload
 (defun yast/datestamp (&optional time zone)
   "Return a datestamp in the format of YYYYMMDD-HHmm.
 
 See `format-time-string` for the meaning of TIME and ZONE."
   (format-time-string "%Y%m%d-%H%M" time zone))
 
+;;;###autoload
 (defun yast/timedate (&optional time zone)
   "Return a datestamp in the format of YYYY-MM-DDTHH:mm:SSZ.
 
 See `format-time-string` for the meaning of TIME and ZONE."
   (format-time-string "%Y-%m-%dT%H:%M:%SZ" time zone))
 
+;;;###autoload
+(defun yast/date (&optional time)
+  "Return a date in the format of YYYY-MM-DD.
+
+See `format-time-string` for the meaning of TIME."
+  (format-time-string "%Y-%m-%d" time))
+
+;;;###autoload
 (defun yast/uuid ()
   "Return a new UUID string in V4 format."
   (uuidgen-4))
