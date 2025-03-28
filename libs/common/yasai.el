@@ -1,11 +1,11 @@
 ;;; yasai.el --- yasnippet autoinsert                     -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2024 The Quo-Emacs Authors
+;; Copyright (C) 2025 The Quo-Emacs Authors
 
 ;; Author: Kevin C. Krinke <kevin@krinke.ca>
 ;; Maintainer: Kevin C. Krinke <kevin@krinke.ca>
 ;; Keywords: quo-emacs
-;; Version: 0.1.2
+;; Version: 0.1.3
 ;; Package-Requires: ((autoinsert) (yasnippet))
 
 ;; This file is not part of GNU Emacs.
@@ -28,16 +28,29 @@
 
 ;;; Changelog:
 
+;; v0.1.3:
+;;   * set `auto-insert-prompt' variable for consistent prompt messaging
+;;   * implement `yasai-maintain-order' setting
+;;   * use `append' instead of `add-to-list' when `yasai-maintain-order' is `t'
+
 ;; v0.1.2:
 ;;   * specify `yasai-add' as safe for eval in `.dir-locals.el'
 ;;   * ensure `yasai/add-table' does nothing when entry already exists
-;;
+
 ;; v0.1.1:
 ;;   * refactored `yasai/entry' to include snippet-desc in `auto-insert-alist'
 
 ;;; Code:
 (require 'yasnippet)
 (require 'autoinsert)
+
+(setq auto-insert-prompt "Perform auto-insert?")
+
+(defvar yasai-maintain-order t
+  "Specify maintaining the `yasai-add' order of listing of choices.
+
+`t' maintains order added
+`nil' reverses the list")
 
 ;;;###autoload
 (defun yasai-add (file-pattern snippet-mode snippet-name snippet-desc)
@@ -95,7 +108,12 @@ SNIPPET-MODE."
          (existing (gethash file-pattern yasai/registry))
          (return-value (and existing (> (length existing) 0) (member new-entry existing))))
     (unless return-value
-      (add-to-list 'existing new-entry)
+      (if yasai-maintain-order
+          ;; append maintains the correct order added
+          (setq existing (append existing (list new-entry)))
+        ;; add-to-list reverses the list of choices
+        (add-to-list 'existing new-entry)
+        ) ;; end if yasai-maintain-order
       (puthash file-pattern existing yasai/registry)
       ) ;; only apply when not existing
     return-value))
