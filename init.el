@@ -214,6 +214,9 @@
 ;;   ) ;; end nil
 ;;  ) ;; end .dir-locals.el
 
+;; storydown mode stuff
+(require 'storydown)
+
 ;;
 ;; keybindings
 ;;
@@ -222,6 +225,9 @@
 
 ;; TODO: figure out a keybinds file format to use, or otherwise abstract the
 ;;       keybinding process to make this stage more convenient.
+
+(evil-leader/set-key "w c" 'count-words)
+(evil-leader/set-key "s d e" 'storydown-emote-line)
 
 ;; disable help prefix so F1 can be used for other things
 (setq help-char nil)
