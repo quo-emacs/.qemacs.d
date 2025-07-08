@@ -111,6 +111,17 @@
     )
   ) ;; end when use-go-mode
 
+(qemacs-startup-ask-yn
+ "use-git-modes"
+ "Use `magit'? (y/n) ")
+
+(qemacs-startup-when
+ (qemacs-startup-answer-was-yes "use-git-modes")
+ `(qemacs-startup-ask-yn
+   "use-git-gutter"
+   "Use `git-gutter? (y/n) ")
+ )
+
 ;;
 ;; actually start setting up support systems
 ;;
@@ -138,7 +149,10 @@
 (use-package qemacs-init-terminal :demand t)
 (use-package qemacs-init-evil :demand t)
 (use-package qemacs-init-helm :demand t)
-(use-package qemacs-init-magit :demand t)
+(qemacs-startup-when
+ (qemacs-startup-answer-was-yes "use-git-modes")
+ `(use-package qemacs-init-magit :demand t)
+ )
 (qemacs-startup-when
  (qemacs-startup-answer-was-yes "use-ts-mode")
  `(use-package qemacs-init-treesit :demand t)

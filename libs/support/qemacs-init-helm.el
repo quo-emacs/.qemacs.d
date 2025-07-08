@@ -25,6 +25,8 @@
 
 ;;; Code:
 
+(require 'qemacs-startup)
+
 (use-package helm
   :demand t
   :straight t
@@ -63,13 +65,15 @@
   (setq htlm-make-list-target-method 'qp)
   )
 
-(use-package helm-ls-git
-  :demand t
-  :straight t
-  :diminish ""
-  :after (helm)
-  )
-
+(qemacs-startup-when
+ (qemacs-startup-answer-was-yes "use-git-modes")
+ `(use-package helm-ls-git
+    :demand t
+    :straight t
+    :diminish ""
+    :after (helm)
+    )
+ )
 
 (provide 'qemacs-init-helm)
 ;;; qemacs-init-helm.el ends here

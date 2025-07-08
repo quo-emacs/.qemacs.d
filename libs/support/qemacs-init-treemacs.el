@@ -26,6 +26,7 @@
 ;;; Code:
 
 (require 'qemacs-common)
+(require 'qemacs-startup)
 
 (use-package treemacs
   :demand t
@@ -118,15 +119,19 @@
   (treemacs-follow-mode nil)
   (treemacs-filewatch-mode nil)
   (treemacs-fringe-indicator-mode 'always)
-  (when treemacs-python-executable
-    (treemacs-git-commit-diff-mode t))
 
-  (pcase (cons (not (null (executable-find "git")))
-               (not (null treemacs-python-executable)))
-    (`(t . t) (treemacs-git-mode 'deferred))
-    (`(t . _) (treemacs-git-mode 'simple)))
-
-  (treemacs-hide-gitignored-files-mode nil)
+  (qemacs-startup-when
+   (qemacs-startup-answer-was-yes "use-git-modes")
+   `(progn
+      (when treemacs-python-executable
+        (treemacs-git-commit-diff-mode t))
+      (pcase (cons (not (null (executable-find "git")))
+                   (not (null treemacs-python-executable)))
+        (`(t . t) (treemacs-git-mode 'deferred))
+        (`(t . _) (treemacs-git-mode 'simple)))
+      (treemacs-hide-gitignored-files-mode nil)
+      )
+   )
 
   (setq aw-ignored-buffers (delete 'treemacs-mode aw-ignored-buffers))
 
@@ -145,10 +150,13 @@
     :demand t
     :straight t)
 
-  (use-package treemacs-magit
-    :after (magit)
-    :demand t
-    :straight t)
+  (qemacs-startup-when
+   (qemacs-startup-answer-was-yes "use-git-modes")
+   `(use-package treemacs-magit
+      :after (magit)
+      :demand t
+      :straight t)
+   )
 
   ;; (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
   ;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
