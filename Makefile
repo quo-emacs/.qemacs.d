@@ -60,6 +60,8 @@ deps-golang:
 	@go install github.com/mdempsky/unconvert@latest
 	@go install honnef.co/go/tools/cmd/staticcheck@latest
 	@go install github.com/kisielk/errcheck@latest
+	@go install github.com/go-delve/delve/cmd/dlv@latest
+	@go install github.com/go-corelibs/x-text/cmd/gotext@latest
 
 deps-nodejs:
 	@npm install -g \
