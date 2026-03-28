@@ -85,6 +85,24 @@
   ) ;; end use-package apache-mode
 
 ;;
+;; docker configuration
+;;
+
+(use-package dockerfile-mode
+  :demand t
+  :straight (dockerfile-mode
+             :type git
+             :host github
+             :repo "spotify/dockerfile-mode")
+  :diminish ""
+  :config
+  ;; building with dockerfile-mode will prompt for the image name
+  (put 'dockerfile-image-name 'safe-local-variable #'stringp)
+  ;; :mode
+  ;; (("\\\`/etc/apache.*\\.\\(conf\\|load\\)\\'" . apache-mode))
+  ) ;; end use-package apache-mode
+
+;;
 ;; Makefile
 ;;
 
