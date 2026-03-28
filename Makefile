@@ -53,27 +53,37 @@ deps-debian:
 endif
 
 deps-golang:
+	@echo "# installing gopls@latest"
 	@go install golang.org/x/tools/gopls@latest
+	@echo "# installing godoc@latest"
 	@go install golang.org/x/tools/cmd/godoc@latest
+	@echo "# installing goimports@latest"
 	@go install golang.org/x/tools/cmd/goimports@latest
+	@echo "# installing godef@latest"
 	@go install github.com/rogpeppe/godef@latest
+	@echo "# installing unconvert@latest"
 	@go install github.com/mdempsky/unconvert@latest
+	@echo "# installing staticcheck@latest"
 	@go install honnef.co/go/tools/cmd/staticcheck@latest
+	@echo "# installing errcheck@latest"
 	@go install github.com/kisielk/errcheck@latest
+	@echo "# installing dlv@latest"
 	@go install github.com/go-delve/delve/cmd/dlv@latest
-	@go install github.com/go-corelibs/x-text/cmd/gotext@latest
+#	@echo "# installing go-corelibs/gotext@latest"
+#	@go install github.com/go-corelibs/x-text/cmd/gotext@latest
 
 deps-nodejs:
 	@npm install -g \
-		eslint \
-		bash-ls \
-		prettier \
-		typescript \
-		intelephense \
-		bash-language-server \
-		unified-language-server \
-		typescript-language-server \
-		vscode-langservers-extracted
+		eslint@latest \
+		bash-ls@latest \
+		prettier@latest \
+		typescript@latest \
+		intelephense@latest \
+		apheleia@latest \
+		bash-language-server@latest \
+		unified-language-server@latest \
+		typescript-language-server@latest \
+		vscode-langservers-extracted@latest
 
 deps-python:
 	@pip3 install \
