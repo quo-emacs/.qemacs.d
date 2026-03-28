@@ -70,7 +70,8 @@
         );; end dark theme gutters
       ) ;; end if display-graphic-p
 
-    (global-git-gutter-mode +1)
+    ;; git gutter is somehow very cpu intensive, constantly at 25% cpu or more
+    ;;(global-git-gutter-mode +1)
     ) ;; end use-package git-gutter
 
   ) ;; end use-package magit
