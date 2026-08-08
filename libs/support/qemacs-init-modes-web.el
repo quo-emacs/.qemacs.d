@@ -169,6 +169,7 @@
         (add-hook 'web-mode-hook 'lsp-deferred)
         (add-hook 'web-mode-hook 'qemacs-stop-apheleia)
         )
+      (setq comment-use-syntax t)
       (setq web-mode-css-indent-offset 2)
       (setq web-mode-code-indent-offset 2)
       (setq web-mode-markup-indent-offset 2)
