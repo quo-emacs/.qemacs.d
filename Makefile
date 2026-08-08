@@ -36,6 +36,10 @@ endif
 	@echo "       make <factory-reset>"
 	@echo "       make <reset-startup-answers|reset-transient>"
 	@echo "       make <reset-tree-sitter|reset-elpa-straight>"
+	@echo
+	@echo "To upgrade packages, use:"
+	@echo
+	@echo "       M-x straight-pull-all"
 
 #
 #: Dependencies
