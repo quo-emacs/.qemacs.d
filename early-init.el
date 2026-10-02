@@ -105,6 +105,7 @@
 
 (require 'warnings) ;; suppress template insertion warnings
 (add-to-list 'warning-suppress-types '(yasnippet backquote-change))
+(setq native-comp-async-report-warnings-errors nil)
 
 ;; setup unicode supports
 (setq locale-coding-system 'utf-8
