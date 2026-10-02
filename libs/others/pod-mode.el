@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;; pod-mode.el --- Major mode for editing .pod-files
 
 ;;; POD is the Plain Old Documentation format of Perl.

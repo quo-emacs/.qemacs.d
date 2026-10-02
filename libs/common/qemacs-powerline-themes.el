@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;; qemacs-powerline-themes.el --- Kevin's Emacs Evil themes for Powerline
 
 ;; Copyright (C) 2014 Chris Johnson
